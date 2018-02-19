@@ -112,62 +112,74 @@ function initGallery(imgsArr) {
   return mImages;
 }
 
+function getAlternateJson() {
+  return location.search.split('?json=')[1];
+}
+
 mRequest.onreadystatechange = function() {
-  if (this.readyState == 4 && this.status == 200) {
-    var imgsObj = JSON.parse(this.responseText);
-    var nextPhoto = $('#nextPhoto');
-    var prevPhoto = $('#prevPhoto');
-    var moreIndicator = $('.moreIndicator');
+  if (this.readyState == 4) {
+    if(this.status == 200) {
+      var imgsObj = JSON.parse(this.responseText);
+      var nextPhoto = $('#nextPhoto');
+      var prevPhoto = $('#prevPhoto');
+      var moreIndicator = $('.moreIndicator');
 
-    mImages = initGallery(imgsObj.images)
-    swapPhoto();
-
-    nextPhoto.click(() => {
+      mImages = initGallery(imgsObj.images)
       swapPhoto();
-    });
 
-    nextPhoto.hover(
-      () => {
-        nextPhoto.css('opacity', '0.8');
-      },
-      () => {
-        nextPhoto.css('opacity', '1.0');
-      }
-    );
+      nextPhoto.click(() => {
+        swapPhoto();
+      });
 
-    prevPhoto.hover(
-      () => {
-        prevPhoto.css('opacity', '0.8');
-      },
-      () => {
-        prevPhoto.css('opacity', '1.0');
-      }
-    );
+      nextPhoto.hover(
+        () => {
+          nextPhoto.css('opacity', '0.8');
+        },
+        () => {
+          nextPhoto.css('opacity', '1.0');
+        }
+      );
 
-    nextPhoto.css('float', 'right');
+      prevPhoto.hover(
+        () => {
+          prevPhoto.css('opacity', '0.8');
+        },
+        () => {
+          prevPhoto.css('opacity', '1.0');
+        }
+      );
 
-    moreIndicator.css('float', 'center');
+      nextPhoto.css('float', 'right');
 
-    prevPhoto.click(() => {
-      mCurrentIndex-=2;
-      swapPhoto();
-    });
+      moreIndicator.css('float', 'center');
 
-    $('.moreIndicator').click(() => {
-      var more = $('.moreIndicator');
-      var details = $('.details');
-      details.fadeToggle('fast');
-      if(more.hasClass('rot90')) {
-        more.removeClass('rot90');
-        more.addClass('rot270');
-      } else {
-        more.removeClass('rot270');
-        more.addClass('rot90');
-      }
-    });
+      prevPhoto.click(() => {
+        mCurrentIndex-=2;
+        swapPhoto();
+      });
 
+      $('.moreIndicator').click(() => {
+        var more = $('.moreIndicator');
+        var details = $('.details');
+        details.fadeToggle('fast');
+        if(more.hasClass('rot90')) {
+          more.removeClass('rot90');
+          more.addClass('rot270');
+        } else {
+          more.removeClass('rot270');
+          more.addClass('rot90');
+        }
+      });
+    } else {
+      retryRequest()
+    }
   }
 };
 
-mRequest.open("GET", mUrl, true);
+function retryRequest() {
+  mRequest.open("GET", mUrl, true);
+  mRequest.send();
+}
+
+mRequest.open("GET", getAlternateJson(), true);
 mRequest.send();
