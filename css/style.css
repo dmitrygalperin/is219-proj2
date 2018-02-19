@@ -30,7 +30,8 @@ body {
 	position: absolute;
 	z-index: 3;
 	opacity: .8;
-	top: 0px;
+	top: 330px;
+	left: 300px;
 }
 
 .thumbnail {
