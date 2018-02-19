@@ -37,7 +37,18 @@ function swapPhoto() {
 	//Access the img element and replace its source
 	//with a new image from your images array which is loaded
 	//from the JSON string
-	console.log('swap photo');
+  if(mCurrentIndex < 0)
+    mCurrentIndex = mImages.length + mCurrentIndex;
+  else if(mCurrentIndex > mImages.length-1)
+    mCurrentIndex = mCurrentIndex - mImages.length;
+  console.log(mCurrentIndex);
+  var currentImg = mImages[mCurrentIndex++]
+  var imgTag = $('#slideShow').find('.thumbnail');
+  var details = $('.details');
+  imgTag.attr('src', currentImg.img);
+  details.find('.location').text(`Location: ${currentImg.location}`);
+  details.find('.description').text(`Description: ${currentImg.description}`);
+  details.find('.date').text(`Location: ${currentImg.date}`);
 }
 
 // Counter for the mImages array
@@ -85,9 +96,10 @@ function GalleryImage(location, description, date, img) {
   this.img = img;
 }
 
-function initGallery(imgsObj) {
+function initGallery(imgsArr) {
   var mImages = []
-  for(img in imgsObj) {
+  for(var i in imgsArr) {
+    img = imgsArr[i]
     mImages.push(
       new GalleryImage(
         img.imgLocation,
@@ -103,8 +115,59 @@ function initGallery(imgsObj) {
 mRequest.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
     var imgsObj = JSON.parse(this.responseText);
-    mImages = initGallery(imgsObj)
+    var nextPhoto = $('#nextPhoto');
+    var prevPhoto = $('#prevPhoto');
+    var moreIndicator = $('.moreIndicator');
+
+    mImages = initGallery(imgsObj.images)
+    swapPhoto();
+
+    nextPhoto.click(() => {
+      swapPhoto();
+    });
+
+    nextPhoto.hover(
+      () => {
+        nextPhoto.css('opacity', '0.8');
+      },
+      () => {
+        nextPhoto.css('opacity', '1.0');
+      }
+    );
+
+    prevPhoto.hover(
+      () => {
+        prevPhoto.css('opacity', '0.8');
+      },
+      () => {
+        prevPhoto.css('opacity', '1.0');
+      }
+    );
+
+    nextPhoto.css('float', 'right');
+
+    moreIndicator.css('float', 'center');
+
+    prevPhoto.click(() => {
+      mCurrentIndex-=2;
+      swapPhoto();
+    });
+
+    $('.moreIndicator').click(() => {
+      var more = $('.moreIndicator');
+      var details = $('.details');
+      details.fadeToggle('fast');
+      if(more.hasClass('rot90')) {
+        more.removeClass('rot90');
+        more.addClass('rot270');
+      } else {
+        more.removeClass('rot270');
+        more.addClass('rot90');
+      }
+    });
+
   }
 };
-xhttp.open("GET", mUrl, true);
-xhttp.send();
+
+mRequest.open("GET", mUrl, true);
+mRequest.send();
