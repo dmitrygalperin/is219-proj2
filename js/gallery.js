@@ -48,7 +48,7 @@ function swapPhoto() {
   imgTag.attr('src', currentImg.img);
   details.find('.location').text(`Location: ${currentImg.location}`);
   details.find('.description').text(`Description: ${currentImg.description}`);
-  details.find('.date').text(`Location: ${currentImg.date}`);
+  details.find('.date').text(`Date: ${currentImg.date}`);
 }
 
 // Counter for the mImages array

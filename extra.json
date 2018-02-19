@@ -1,0 +1,34 @@
+{
+    "images": [
+        {
+            "imgPath": "img/extra/bentley.jpg",
+            "imgLocation": "Some dealership somewhere",
+            "description": "This Bentley is pretty sweet",
+            "date": "01/01/2016"
+        },
+        {
+            "imgPath": "img/extra/bugatti.jpg",
+            "imgLocation": "Probably at some other dealership",
+            "description": "This car is totally faster than the Bentley",
+            "date": "11/30/2016"
+        },
+        {
+            "imgPath": "img/extra/ferarri.jpg",
+            "imgLocation": "On the street",
+            "description": "Cool Ferarri, dude.",
+            "date": "2/20/2017"
+        },
+        {
+            "imgPath": "img/extra/lamborghini.jpg",
+            "imgLocation": "Somewhere with cool looking lights.",
+            "description": "Lambo. Nice.",
+            "date": "6/10/2017"
+        },
+        {
+            "imgPath": "img/extra/porsche.jpg",
+            "imgLocation": "On the grass.",
+            "description": "Who parks their Porsche on the grass?",
+            "date": "8/11/2017"
+        }
+      ]
+}
