@@ -41,7 +41,7 @@ function swapPhoto() {
     mCurrentIndex = mImages.length + mCurrentIndex;
   else if(mCurrentIndex > mImages.length-1)
     mCurrentIndex = mCurrentIndex - mImages.length;
-  console.log(mCurrentIndex);
+
   var currentImg = mImages[mCurrentIndex++]
   var imgTag = $('#slideShow').find('.thumbnail');
   var details = $('.details');
@@ -171,12 +171,12 @@ mRequest.onreadystatechange = function() {
         }
       });
     } else {
-      retryRequest()
+      openDefaultJson()
     }
   }
 };
 
-function retryRequest() {
+function openDefaultJson() {
   mRequest.open("GET", mUrl, true);
   mRequest.send();
 }
